@@ -1,0 +1,102 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hey",
+        "How are you",
+        "Is anyone there?",
+        "Hello",
+        "Good day"
+      ],
+      "responses": [
+        "Hi,can you tell me your feelings right now?"
+      ]
+    },
+    {
+      "tag": "function",
+      "patterns": [
+        "What is your function?",
+        "What do you do?",
+        "What you can do?",
+        "Are you depression indicator?",
+        "Are you real?",
+        "What are you?"
+      ],
+      "responses": [
+        "I am a depression indicator bot. I am your virtual partner.\n My duty is to analyze your chat and decide whether you are in depression or not."
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Bye", "See you later", "Goodbye"],
+      "responses": [
+        "See you later, thank you for visiting!",
+        "Have a nice day!",
+        "Bye! Thank you for using me :)"
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": ["Thanks", "Thank you", "That's helpful", "Thanks a lot!"],
+      "responses": ["Happy to help!", "Any time!", "My pleasure!"]
+    },
+
+    {
+      "tag": "happy",
+      "patterns": [
+        "I am happy today",
+        "I am very excited",
+        "I am very hyped up",
+        "Cheered up",
+        "I am top of the world",
+        "Im happy"
+
+      ],
+      "responses": [
+        "I am glad that you are happy! Thank you for using Anaconda Depression Indicator",
+        "I am very happy to see you in joy. Have a nice day!"
+      ]
+    },
+    {
+      "tag": "sad",
+      "patterns": [
+        "I am sad today",
+        "I have been feeling down lately",
+        "I am upset",
+        "I am feeling blue",
+        "I am about to cry",
+        "I want to cry",
+        "Im sad"
+      ],
+      "responses": [
+        "I am sorry to hear that, can you tell me your story?",
+        "You sound so blue, what happened?"
+      ]
+    },
+    {
+      "tag": "depression",
+      "patterns": [
+        "I am in depression",
+        "I am so depressed",
+        "I am having depression"
+      ],
+      "responses": [
+        "Oh, looks like you are having depression. What happened?"
+      ]
+    },
+    {
+      "tag": "funny",
+      "patterns": [
+        "Tell me a joke!",
+        "Tell me something funny!",
+        "Do you know a joke?"
+      ],
+      "responses": [
+        "Why did the hipster burn his mouth? He drank the coffee before it was cool.",
+        "What did the buffalo say when his son left for college? Bison."
+      ]
+    }
+  ]
+}
