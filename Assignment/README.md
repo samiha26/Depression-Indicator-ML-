@@ -12,4 +12,8 @@
 - pip install keras
 - pip install streamlit-webrtc
 - pip install vaderSentiment
-- 
+- pip install torch
+- pip install nltk
+- python -m nltk.downloader all
+
+#### make sure your command prompt has the correct directory selected where your app.py and other resources are stored. If not change the directory location to the correct one using -->  cd "enter directory location here" 
