@@ -223,13 +223,15 @@ def main():
             with right_column:
                 st_lottie(lottie_img, height=300, key="depression")
 
-
+        #user only able to select one option
         q1 = st.radio(
             "Question 1",
             ('I do not feel sad.',
              'I feel sad',
              'I am sad all the time and I cant snap out of it.',
              'I am so sad and unhappy that I cant stand it. '))
+        
+        #set values of every radio button to make the system able to count the score at end
         if q1 == 'I do not feel sad.':
             a = 0
         elif q1 == 'I feel sad':
@@ -238,13 +240,16 @@ def main():
             a = 2
         else:
             a = 3
-
+            
+        #user only able to select one option
         q2 = st.radio(
             "Question 2",
             ('I am not particularly discouraged about the future.',
              'I feel discouraged about the future.',
              'I feel I have nothing to look forward to.',
              'I feel the future is hopeless and that things cannot improve.'))
+        
+        #set values of every radio button to make the system able to count the score at end
         if q2 == 'I am not particularly discouraged about the future.':
             b = 0
         elif q2 == 'I feel discouraged about the future.':
@@ -254,6 +259,7 @@ def main():
         else:
             b = 3
 
+        #user only able to select one option
         q3 = st.radio(
             "Question 3",
             ('I do not feel like a failure.',
@@ -270,6 +276,7 @@ def main():
         else:
             c = 3
 
+        #user only able to select one option
         q4 = st.radio(
             "Question 4",
             ('I get as much satisfaction out of things as I used to.',
@@ -277,6 +284,7 @@ def main():
              'I don\'t get real satisfaction out of anything anymore. ',
              'I am dissatisfied or bored with everything. '))
 
+        #set values of every radio button to make the system able to count the score at end
         if q4 == 'I get as much satisfaction out of things as I used to.':
             d = 0
         elif q4 == 'I don\'t enjoy things the way I used to':
@@ -286,6 +294,7 @@ def main():
         else:
             d = 3
 
+        #user only able to select one option
         q5 = st.radio(
             "Question 5",
             ('I don\'t feel particularly guilty',
@@ -302,6 +311,7 @@ def main():
         else:
             e = 3
 
+        #user only able to select one option
         q6 = st.radio(
             "Question 6",
             ('I don\'t feel I am being punished. ',
@@ -309,6 +319,7 @@ def main():
              'I expect to be punished. ',
              'I feel I am being punished. '))
 
+        #set values of every radio button to make the system able to count the score at end
         if q6 == 'I don\'t feel I am being punished. ':
             f = 0
         elif q6 == 'I feel I may be punished. ':
@@ -325,6 +336,7 @@ def main():
              'I am disgusted with myself. ',
              'I hate myself. '))
 
+        #set values of every radio button to make the system able to count the score at end
         if q7 == 'I don\'t feel disappointed in myself. ':
             g = 0
         elif q7 == 'I am disappointed in myself.':
@@ -558,6 +570,7 @@ def main():
         else:
             u = 3
 
+        #display types of depression based on their score
         with st.container():
             st.subheader("Level of Depression")
             st.write("1-10 These ups and downs are considered normal ")
@@ -568,9 +581,15 @@ def main():
             st.write("over 40 Extreme depression")
             st.write("---")
 
+        #calculate score
         sum = a + b + c + d + e + f + g + h + i + j + k + l + m + n + o + p + q + r + s + t + u
+        
+        
         with st.container():
+            #the score only will display when user click the button
             if st.button('Your Score'):
+                
+                #display what types of depression they suffer based on their score
                 st.success(sum)
                 if sum <= 10:
                     st.subheader('These ups and downs are considered normal ')
