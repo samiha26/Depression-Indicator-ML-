@@ -31,7 +31,7 @@ def convert_to_df(sentiment):
     sentiment_df = pd.DataFrame(sentiment_dict.items(), columns=['metric', 'value'])
     return sentiment_df
 
-
+# analyzing key words and the type of text based on the 3 classifier types  and calcualting the polarity score
 def analyze_keyword_sentiment(docx):
     analyzer = SentimentIntensityAnalyzer()
     pos_list = []
