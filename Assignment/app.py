@@ -22,9 +22,10 @@ from nltk_utils import bagofwords, tokenize
 from questions import askMore
 
 
-
+# default text for all pages
 st.set_page_config(page_title="Emotion Detection Website", page_icon=":tada:", layout="wide")
-# Fxn
+
+# Text Analysis detection
 def convert_to_df(sentiment):
     sentiment_dict = {'polarity': sentiment.polarity, 'subjectivity': sentiment.subjectivity}
     sentiment_df = pd.DataFrame(sentiment_dict.items(), columns=['metric', 'value'])
@@ -47,24 +48,30 @@ def analyze_keyword_sentiment(docx):
             neg_list.append(res)
         else:
             neu_list.append(i)
+            
+    # displaying result
 
     result = {'positives': pos_list, 'negatives': neg_list, 'neutral': neu_list}
     return result
 
-# Webcam
+# Emotion-Cam Implementation
+
 # load model
+# 5 labels for the model are loaded
 emotion_dict = {0:'angry', 1:'happy',2:'neutral', 3:'sad',4:'surprised'}
-#load jason and create model
+
+#loading jason and creating model
 json_file = open('emotion_model1.json','r')
 loaded_model_json = json_file.read()
 json_file.close()
 classifier = model_from_json(loaded_model_json)
 
-#load weights into new model
+#loading weights into new model
 classifier.load_weights("emotion_model1.h5")
 
-#load face
+#loading face
 try:
+    #haarcascade classifier is being looked up
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
     # face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 except Exception:
@@ -76,12 +83,12 @@ class VideoTransformer(VideoTransformerBase):
     def transform(self,frame):
         img = frame.to_ndarray(format="bgr24")
 
-        #image gray
-
+        #image is being converted to grayscale
+        # using detectMultiScale to detect multiple faces at the same time
         img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(
             image = img_gray, scaleFactor = 1.3, minNeighbors =5 )
-
+        # drawing a rectangle when face is detected
         for (x,y,w,h) in faces:
             cv2.rectangle(img=img, pt1=(x,y),pt2=(
                 x+w,y+h), color =(0,255,0), thickness =2)
@@ -109,12 +116,12 @@ def main():
 
     st.title("Emotion Detection Website")
     # st.subheader("Streamlit Projects")
-
+    # setting up the menu
     menu = ["Home","Text Analysis","Emotion-Cam","BDI Questionnaire","Chat Buddy"]
     choice = st.sidebar.selectbox("Menu", menu)
 
     if choice == "Home":
-
+        # loading a lottie animation 
         def load_lottieurl(url):
             r = requests.get(url)
             if r.status_code != 200:
@@ -162,8 +169,10 @@ def main():
     elif choice == "Text Analysis":
 
         st.subheader("Tell us about how you feel on a daily basis, try to write more than 2 sentences !! 🥰")
+        # using nlp algorithm
         with st.form(key='nlpForm'):
-            raw_text = st.text_area("Write Here")
+            # getting user input
+            raw_text = st.text_area("Write Here") 
             submit_button = st.form_submit_button(label='Analyze')
 
         # layout
@@ -171,11 +180,12 @@ def main():
         if submit_button:
 
             with col1:
+                # using textblob to detect sentiment type
                 st.info("Outcome")
                 sentiment = TextBlob(raw_text).sentiment
                 st.write(sentiment)
 
-                # Emoji
+                # checking the polarity
                 if sentiment.polarity > 0:
                     st.markdown("Emotion:: Positive :smiley: ")
                 elif sentiment.polarity < 0:
@@ -183,11 +193,11 @@ def main():
                 else:
                     st.markdown("Emotion:: Neutral 😐 ")
 
-                # Dataframe
+                # Dataframe of the polarity and subjectivity
                 result_df = convert_to_df(sentiment)
                 st.dataframe(result_df)
 
-                # Visualization
+                # Visualization of bar chart
                 c = alt.Chart(result_df).mark_bar().encode(
                     x='metric',
                     y='value',
@@ -196,11 +206,12 @@ def main():
 
             with col2:
                 st.info("Key Word Analysis")
-
+                # classifying key words under positive, neutral and negative types
                 keyword_sentiments = analyze_keyword_sentiment(raw_text)
                 st.write(keyword_sentiments)
 
     elif choice == "Emotion-Cam":
+        # displaying the webcam window 
         st.header("Live Emotion-Cam")
         st.write("Click on start to use webcam and detect your emotion")
         webrtc_streamer(key="example", video_transformer_factory=VideoTransformer)
@@ -581,7 +592,7 @@ def main():
             st.write("over 40 Extreme depression")
             st.write("---")
 
-        #calculate score
+        #calculate total score
         sum = a + b + c + d + e + f + g + h + i + j + k + l + m + n + o + p + q + r + s + t + u
         
         
@@ -589,7 +600,7 @@ def main():
             #the score only will display when user click the button
             if st.button('Your Score'):
                 
-                #display what types of depression they suffer based on their score
+                #display what types of depression they suffer based on their score and possible diagnosis/help
                 st.success(sum)
                 if sum <= 10:
                     st.subheader('These ups and downs are considered normal ')
@@ -601,7 +612,7 @@ def main():
 
                 elif sum > 16 and sum <= 20:
                     st.subheader('Borderline clinical depression')
-                    st.write("[Don't Worry!]()")
+                    st.write("[Don't Worry!](https://www.emedicinehealth.com/depression_health/article_em.htm)")
 
                 elif sum > 20 and sum <= 30:
                     st.subheader('Moderate depression')
@@ -616,6 +627,7 @@ def main():
                     st.write("[Emotional Support ](https://www.befrienders.org.my/centre-in-malaysia)")
 
     elif choice == "Chat Buddy":
+        # loading a lottie animation
         def load_lottieurl(url):
             r = requests.get(url)
             if r.status_code != 200:
