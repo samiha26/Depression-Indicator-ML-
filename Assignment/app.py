@@ -647,10 +647,12 @@ def main():
 
 
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
+        
+        #to get response for the chat
         with open('intents.json', 'r') as json_data:
             intents = json.load(json_data)
-
+        
+        #trained data set
         FILE = "data.pth"
         data = torch.load(FILE)
 
@@ -666,19 +668,13 @@ def main():
         model.eval()
 
         bot_name = "Anaconda"
-
+        
+        #for user input for chat
         reply = st.text_input("You: ", "")
         sentence = reply
 
-        # sentence = input("You: ")
-
         if sentence == "quit":
             st.write("Thank you for talking to me! have a nice day~")
-            # break
-
-        # if sentence == "yes":
-        # askMore()
-        # break
 
         sentence = tokenize(sentence)
         X = bagofwords(sentence, all_words)
@@ -692,6 +688,7 @@ def main():
 
         probs = torch.softmax(output, dim=1)
         prob = probs[0][predicted.item()]
+        #to decide how to reply on the chat
         if prob.item() > 0.75:
             for intent in intents['intents']:
                 if tag == intent["tag"]:
