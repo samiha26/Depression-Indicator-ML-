@@ -23,7 +23,7 @@ from questions import askMore
 
 
 # default text for all pages
-st.set_page_config(page_title="Emotion Detection Website", page_icon=":tada:", layout="wide")
+st.set_page_config(page_title="Depression Detection Website", page_icon=":tada:", layout="wide")
 
 # Text Analysis detection
 def convert_to_df(sentiment):
@@ -114,7 +114,7 @@ class VideoTransformer(VideoTransformerBase):
 
 def main():
 
-    st.title("Emotion Detection Website")
+    st.title("Depression Detection Website")
     # st.subheader("Streamlit Projects")
     # setting up the menu
     menu = ["Home","Text Analysis","Emotion-Cam","BDI Questionnaire","Chat Buddy"]
