@@ -7,7 +7,7 @@ import cv2
 import numpy as np
 
 face_classifier = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-classifier =load_model(r'D:/UM/WIA1006/MACHINE LEARNING ASSIGNMENT/model.h5') # change the directory location to the correct one according to your file location
+classifier =load_model(r'D:/UM/Depression-Indicator-ML-/model.h5') # change the directory location to the correct one according to your file location
 
 emotion_labels = ['Angry','Disgust','Fear','Happy','Neutral', 'Sad', 'Surprise']
 

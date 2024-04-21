@@ -6,9 +6,11 @@ import requests
 from streamlit_lottie import st_lottie
 import numpy as np
 import cv2
+import tensorflow as tf
 from tensorflow import keras
-from keras.models import model_from_json
-from tensorflow.keras.utils import img_to_array
+from tensorflow.keras.models import model_from_json
+# from tensorflow.keras.utils import img_to_array
+from tensorflow.keras.preprocessing.image import img_to_array
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, RTCConfiguration, VideoProcessorBase, WebRtcMode
 from itertools import count
 import time
@@ -57,30 +59,37 @@ def analyze_keyword_sentiment(docx):
 # Emotion-Cam Implementation
 
 # load model
+def load_model():
+    with open("emotion_model1.json", "r") as json_file:
+        loaded_model_json = json_file.read()
+        classifier = tf.keras.models.model_from_json(loaded_model_json)
+    classifier.load_weights("emotion_model1.h5")
+    return classifier
 # 5 labels for the model are loaded
 emotion_dict = {0:'angry', 1:'happy',2:'neutral', 3:'sad',4:'surprised'}
 
-#loading jason and creating model
-json_file = open('emotion_model1.json','r')
-loaded_model_json = json_file.read()
-json_file.close()
-classifier = model_from_json(loaded_model_json)
+# #loading jason and creating model
+# json_file = open('emotion_model1.json','r')
+# loaded_model_json = json_file.read()
+# json_file.close()
+# classifier = tf.keras.models.model_from_json(loaded_model_json)
 
-#loading weights into new model
-classifier.load_weights("emotion_model1.h5")
+# #loading weights into new model
+# classifier.load_weights("emotion_model1.h5")
 
 #loading face
 try:
     #haarcascade classifier is being looked up
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
     # face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-except Exception:
+except Exception as e:
     st.write("Error loading cascade classifier!")
+    st.write(e)
 
 RTC_CONFIGURATION = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
 
 class VideoTransformer(VideoTransformerBase):
-    def transform(self,frame):
+    def recv(self,frame):
         img = frame.to_ndarray(format="bgr24")
 
         #image is being converted to grayscale
@@ -88,6 +97,10 @@ class VideoTransformer(VideoTransformerBase):
         img_gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(
             image = img_gray, scaleFactor = 1.3, minNeighbors =5 )
+        
+        # Print number of faces detected
+        print("Number of faces detected:", len(faces))
+        
         # drawing a rectangle when face is detected
         for (x,y,w,h) in faces:
             cv2.rectangle(img=img, pt1=(x,y),pt2=(
@@ -104,6 +117,9 @@ class VideoTransformer(VideoTransformerBase):
                 maxindex = int(np.argmax(prediction))
                 finalout = emotion_dict[maxindex]
                 output = str(finalout)
+                
+                # Print emotion prediction
+                print("Emotion prediction:", output)
 
             label_position = (x,y)
             cv2.putText(img,output,label_position,cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),2)
@@ -214,7 +230,7 @@ def main():
         # displaying the webcam window 
         st.header("Live Emotion-Cam")
         st.write("Click on start to use webcam and detect your emotion")
-        webrtc_streamer(key="example", video_transformer_factory=VideoTransformer)
+        webrtc_streamer(key="example", video_processor_factory=VideoTransformer,)
 
     elif choice == "BDI Questionnaire":
         def load_lottieurl(url):
