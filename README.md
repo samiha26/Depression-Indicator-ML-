@@ -3,7 +3,7 @@
 ## Collaborators : Samiha, Alia, Leya, Aidil, Rafiy
 
 #### Demo:
-[![Watch the video](1.jpeg)](https://youtu.be/iV7u4bBMLZc)
+[![Watch the video](youtube.jpg)](https://youtu.be/iV7u4bBMLZc)
 
 #### Home Page:
 >>
