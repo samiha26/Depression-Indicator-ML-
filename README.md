@@ -2,7 +2,7 @@
 ### Machine Language Assignment of Creating Depression Indicator Website
 ## Collaborators : Samiha, Alia, Leya, Aidil, Rafiy
 
-#### Demo:
+#### Demo [Click the image to watch the demo]:
 [![Watch the video](youtube.jpg)](https://youtu.be/iV7u4bBMLZc)
 
 #### Home Page:
